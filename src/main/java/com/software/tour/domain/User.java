@@ -92,6 +92,7 @@ public class User implements Serializable {
 	
 	@Column(name="Start_day")
 	//@Type(type="org.joda.time.contrib.hiberbate.PersistentDateTime")
+	//@Temporal(TemporalType.DATE)
 	@DateTimeFormat(iso=ISO.DATE)
 	public DateTime getStartDay() {
 		return startDay;
