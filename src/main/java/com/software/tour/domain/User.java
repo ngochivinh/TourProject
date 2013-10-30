@@ -131,6 +131,7 @@ public class User implements Serializable {
 	private byte[] photo;
 	private String role;
 	
+
 }
 
 

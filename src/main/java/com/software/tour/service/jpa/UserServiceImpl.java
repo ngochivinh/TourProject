@@ -23,6 +23,7 @@ public class UserServiceImpl implements UserService {
 		return Lists.newArrayList(userRepository.findAll());
 	}
 	
+
 	@Transactional(readOnly=true)
 	public User findById(Long id){
 		return userRepository.findOne(id);
@@ -32,5 +33,6 @@ public class UserServiceImpl implements UserService {
 		return userRepository.save(user);
 	}
 	
+
 }
 
