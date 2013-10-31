@@ -27,13 +27,14 @@ public class UserController {
 		logger.info("Listing contacts");
 		
 		List<User> users = userService.findAll();
+		
 		uiModel.addAttribute("users", users);
 		
 		logger.info("No. of user:" + users.size());
 		return "users/list";
 	}
 	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String login() {
 	    return "users/login";
 	}

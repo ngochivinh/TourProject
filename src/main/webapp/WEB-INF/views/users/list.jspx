@@ -11,17 +11,19 @@ version="2.0">
 		<table>
 			<thead>
 				<tr>
-					<th>ID</th>
+					<th>BirthDate</th>
 					<th>Username</th>
 					<th>Password</th>
+					<th>StartDate</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach items="${users}" var="user">
 					<tr>
-						<td>${user.id}</td>
+						<td>${user.birthDay}</td>
 						<td>${user.username}</td>
 						<td>${user.password}</td>
+						<td>${user.startDate}</td>
 					</tr>
 				</c:forEach>
 			</tbody>

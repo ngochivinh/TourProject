@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
+import org.jadira.usertype.dateandtime.joda.PersistentDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
@@ -14,14 +15,7 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 @Table(name = "USERS")
 public class User implements Serializable {
 	
-	@GeneratedValue(strategy = IDENTITY)
-	@Column(name="Id")
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
+	
 	
 	@Id
 	@Column(name="Username")
@@ -40,8 +34,9 @@ public class User implements Serializable {
 		this.password = password;
 	}
 	
-	@Column(name="Birth_day")
-	//@Type(type="org.joda.time.contrib.hiberbate.PersistentDateTime")
+	@Column(name="BirthDay")
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	//@Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
 	@DateTimeFormat(iso=ISO.DATE)
 	public DateTime getBirthDay() {
 		return birthDay;
@@ -50,7 +45,7 @@ public class User implements Serializable {
 		this.birthDay = birthDay;
 	}
 	
-	@Column(name="First_name")
+	@Column(name="FirstName")
 	public String getFirstName() {
 		return firstName;
 	}
@@ -58,7 +53,7 @@ public class User implements Serializable {
 		this.firstName = firstName;
 	}
 	
-	@Column(name="Last_name")
+	@Column(name="LastName")
 	public String getLastName() {
 		return lastName;
 	}
@@ -90,15 +85,15 @@ public class User implements Serializable {
 		this.email = email;
 	}
 	
-	@Column(name="Start_day")
-	//@Type(type="org.joda.time.contrib.hiberbate.PersistentDateTime")
-	//@Temporal(TemporalType.DATE)
+	@Column(name="StartDate")
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	//@Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
 	@DateTimeFormat(iso=ISO.DATE)
-	public DateTime getStartDay() {
-		return startDay;
+	public DateTime getStartDate() {
+		return startDate;
 	}
-	public void setStartDay(DateTime startDay) {
-		this.startDay = startDay;
+	public void setStartDate(DateTime startDate) {
+		this.startDate = startDate;
 	}
 	
 	@Basic(fetch=FetchType.LAZY)
@@ -118,7 +113,26 @@ public class User implements Serializable {
 		this.role = role;
 	}
 	
-	private Long id;
+	@Transient
+	public String getBirthDateString(){
+		String birthDateString ="";
+		if(birthDay!=null){
+			birthDateString=org.joda.time.format.DateTimeFormat.forPattern("yyyy-MM-dd").print(birthDay);
+		}
+		return birthDateString;
+	}
+	
+	@Transient
+	public String getStartDateString(){
+		String startDateString = "";
+		if(startDate!=null){
+			startDateString = org.joda.time.format.DateTimeFormat.forPattern("yyyy-MM-dd").print(startDate);
+		}
+		return startDateString;
+	}
+	
+	
+	
 	private String username;
 	private String password;
 	private DateTime birthDay;
@@ -127,7 +141,7 @@ public class User implements Serializable {
 	private String address;
 	private String phone;
 	private String email;
-	private DateTime startDay;
+	private DateTime startDate;
 	private byte[] photo;
 	private String role;
 	
