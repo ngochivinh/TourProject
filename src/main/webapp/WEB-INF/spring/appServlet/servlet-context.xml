@@ -2,6 +2,7 @@
 <beans:beans xmlns="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc
 		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
@@ -14,6 +15,10 @@
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
+	
+	<resources location="/, classpath:/META-INF/web-resources/" mapping="/resources/**"/>
+	
+	<default-servlet-handler/>
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
@@ -24,9 +29,27 @@
 		<beans:property name="suffix" value=".jspx" />
 	</beans:bean>
 	
+	<beans:bean class="org.springframework.ui.context.support.ResourceBundleThemeSource"
+		id="themeSource"/>
+	<beans:bean class="org.springframework.web.servlet.theme.CookieThemeResolver"
+		id="themeResolver" p:cookieName="theme" p:defaultThemeName="standard"/>
+	
 	
 	<context:component-scan base-package="com.software.tour.controller" />
 	
+	<interceptors>
+		<beans:bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"
+			p:paramName="lang"/>
+			
+		<beans:bean class="org.springframework.web.servlet.theme.ThemeChangeInterceptor"/>
+			
+	</interceptors>
 	
-	
-</beans:beans>
+	<beans:bean
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
+		id="messageSource" p:basenames="WEB-INF/i18n/messages,WEB-INF/i18n/application"
+		p:fallbackToSystemLocale="false"/>
+		
+	<beans:bean class="org.springframework.web.servlet.i18n.CookieLocaleResolver"
+		id="localeResolver" p:cookieName="locale"/>
+	</beans:beans>
