@@ -15,6 +15,7 @@ import com.google.common.collect.Lists;
 @Repository
 @Transactional
 public class UserServiceImpl implements UserService {
+	
 	@Autowired
 	private UserRepository userRepository;
 	
@@ -23,16 +24,14 @@ public class UserServiceImpl implements UserService {
 		return Lists.newArrayList(userRepository.findAll());
 	}
 	
-
 	@Transactional(readOnly=true)
 	public User findById(Long id){
 		return userRepository.findOne(id);
 	}
 	
-	public User save(User user){
+	public User Save(User user){
 		return userRepository.save(user);
 	}
 	
-
 }
 
