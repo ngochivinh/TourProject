@@ -36,7 +36,6 @@ public class User implements Serializable {
 	
 	@Column(name="BirthDay")
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-	//@Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
 	@DateTimeFormat(iso=ISO.DATE)
 	public DateTime getBirthDay() {
 		return birthDay;

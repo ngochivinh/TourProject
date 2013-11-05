@@ -13,11 +13,9 @@ version="2.0">
 	<spring:message code="label_contact_last_name" var="labelContactPassWord"/>
 	<spring:message code="label_contact_birth_date" var="labelContactBirthDate"/>
 	
-	<head>
-		<spring:theme code="styleSheet" var="app_css" />
-		<spring:url value="/${app_css}" var="app_css_url" />
-		<link rel="stylesheet" type="text/css" media="screen" href="${app_css_url}" />
-	</head>
+	
+	
+	
 	
 	<h1>Users Listing</h1>
 	<c:if test="${not empty users}">

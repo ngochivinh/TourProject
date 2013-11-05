@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -22,7 +23,7 @@ public class UserController {
 	private UserService userService;
 	
 	@RequestMapping(value = "/users/list", method = RequestMethod.GET)
-	//@RequestMapping(method = RequestMethod.GET)
+	
 	public String list(Model uiModel){
 		logger.info("Listing contacts");
 		
@@ -34,9 +35,13 @@ public class UserController {
 		return "users/list";
 	}
 	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String login() {
-	    return "users/login";
+	
+	@RequestMapping(value = "/{id}", method =  RequestMethod.GET)
+	public String show(@PathVariable("id")Long id,Model uiModel){
+		User user = userService.findById(id);
+		uiModel.addAttribute("user",user);
+		return "users/show";
 	}
+	
 	
 }
