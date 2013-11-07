@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:joda="http://www.joda.org/joda/time/tags"
+	version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+	<jsp:output omit-xml-declaration="yes"/>
+	
+	<spring:message code="label_tour_info" var="labelTourInfo"/>
+	<spring:message code="label_tour_id" var="labelTourId"/>
+	<spring:message code="label_tour_name" var="labelTourName"/>
+	<spring:message code="label_tour_start_date" var="labelTourStartDate"/>
+	<spring:message code="label_tour_finish_date" var="labelTourFinishDate"/>
+	<spring:message code="label_tour_description" var="labelTourDescription"/>
+	<spring:message code="date_format_pattern" var="dateFormatPattern"/>
+	<spring:message code="label_tour_update" var="labelTourUpdate"/>
+	<spring:message code="label_tour_status" var="labelTourStatus"/>
+
+	
+
+	<spring:url value="/tours" var="editTourUrl"/>
+	
+	<h1>${labelTourInfo}</h1>
+	
+	<div id="contactInfo">
+		<c:if test="${not empty message}">
+			<div id="message" class="${message.type}">${message.message}</div>
+		</c:if>
+		<table>
+			<tr>
+				<td>${labelTourId}</td>
+				<td>${tour.id}</td>
+			</tr>
+			<tr>
+				<td>${labelTourName}</td>
+				<td>${tour.name}</td>
+			</tr>
+			<tr>
+				<td>${labelTourStartDate}</td>
+				<td>${tour.startDate}</td>
+			</tr>
+			<tr>
+				<td>${labelTourFinishDate}</td>
+				<td>${tour.finishDate}</td>
+			</tr>
+			<tr>
+				<td>${labelTourDescription}</td>
+				<td>${tour.description}</td>
+			</tr>
+			<tr>
+				<td>${labelTourStatus}</td>
+				<td>${tour.status}</td>
+			</tr>
+		</table>
+<a href="${editTourUrl}/${tour.id}?form">${labelTourUpdate}</a>
+</div>
+</div>

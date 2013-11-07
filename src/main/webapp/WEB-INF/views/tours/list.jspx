@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+xmlns:c="http://java.sun.com/jsp/jstl/core"
+xmlns:spring="http://www.springframework.org/tags"
+xmlns:joda="http://www.joda.org/joda/time/tags"
+version="2.0">
+
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+	<jsp:output omit-xml-declaration="yes"/>
+	
+	<spring:message code="label_tour_list" var="labelTourList"/>
+	<spring:message code="label_tour_id" var="labelTourId"/>
+	<spring:message code="label_tour_name" var="labelTourName"/>
+	<spring:message code="label_tour_start_date" var="labelTourStartDate"/>
+	<spring:message code="label_tour_finish_date" var="labelTourFinishDate"/>
+	<spring:url value="/tours" var="showContactUrl"/>
+	
+	
+	
+	<h1>${labelTourList}</h1>
+	<c:if test="${not empty tours}">
+		<table>
+			<thead>
+				<tr>
+					<th>${labelTourId}</th>
+					<th>${labelTourName}</th>
+					<th>${labelTourStartDate}</th>
+					<th>${labelTourFinishDate}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${tours}" var="tour">
+					<tr>
+						<td>${tour.id}</td>
+						<td><a href="${showContactUrl}/${tour.id}">${tour.name}</a></td>
+						<td>${tour.startDate}</td>
+						<td>${tour.finishDate}</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	</c:if>
+</div>

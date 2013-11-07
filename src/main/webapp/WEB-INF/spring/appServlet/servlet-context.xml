@@ -37,8 +37,6 @@
 		<beans:bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"
 			p:paramName="lang"/>
 			
-		
-			
 	</interceptors>
 	
 	

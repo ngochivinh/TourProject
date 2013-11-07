@@ -22,7 +22,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping(value = "/users/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	
 	public String list(Model uiModel){
 		logger.info("Listing contacts");
@@ -36,12 +36,12 @@ public class UserController {
 	}
 	
 	
-	@RequestMapping(value = "/{id}", method =  RequestMethod.GET)
+	/*@RequestMapping(value = "/{id}", method =  RequestMethod.GET)
 	public String show(@PathVariable("id")Long id,Model uiModel){
 		User user = userService.findById(id);
 		uiModel.addAttribute("user",user);
 		return "users/show";
-	}
+	}*/
 	
 	
 }
