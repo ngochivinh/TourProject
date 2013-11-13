@@ -12,10 +12,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 @Entity
+@NamedQueries({
+	@NamedQuery(name="Tour.delete",
+				query="Delete From Tour Where id=(:Id)"
+			)
+})
 @Table(name="TOUR")
 public class Tour implements Serializable {
-	
-	
 	
 	@Id
 	@GeneratedValue(strategy=IDENTITY)

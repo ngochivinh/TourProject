@@ -13,31 +13,59 @@ version="2.0">
 	<spring:message code="label_tour_name" var="labelTourName"/>
 	<spring:message code="label_tour_start_date" var="labelTourStartDate"/>
 	<spring:message code="label_tour_finish_date" var="labelTourFinishDate"/>
-	<spring:url value="/tours" var="showContactUrl"/>
+	<spring:url value="/tours/" var="showTourUrl"/>
 	
+	<SCRIPT type="text/javascript">
+	$(function(){
+		$("#list").jqGrid({
+		url:'${showTourUrl}/listgrid',
+		datatype: 'json',
+		mtype: 'GET',
+		
+		colNames:['${labelTourName}', '${labelTourStartDate}',
+			'${labelTourFinishDate}'],
+			
+		colModel :[
+			{name:'name', index:'name', width:150},
+			{name:'startDate', index:'startDate', width:100},
+			{name:'finishDate', index:'finishDate', width:100}
+		],
+		
+		jsonReader : {
+			root:"tourData",
+			page: "currentPage",
+			total: "totalPages",
+			records: "totalRecords",
+			repeatitems: false,
+			id: "id"
+		},
+		pager: '#pager',
+		rowNum:10,
+		rowList:[10,20,30],
+		sortname: 'name',
+		sortorder: 'asc',
+		viewrecords: true,
+		gridview: true,
+		height: 250,
+		width: 500,
+		caption: '${labelTourList}',
+		onSelectRow: function(id){
+			document.location.href ="${showTourUrl}/" + id;
+		}
+	  });
+	});
+	</SCRIPT>
 	
+	<c:if test="${not empty message}">
+		<div id="message" class="${message.type}">${message.message}</div>
+	</c:if>
 	
 	<h1>${labelTourList}</h1>
-	<c:if test="${not empty tours}">
-		<table>
-			<thead>
-				<tr>
-					<th>${labelTourId}</th>
-					<th>${labelTourName}</th>
-					<th>${labelTourStartDate}</th>
-					<th>${labelTourFinishDate}</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${tours}" var="tour">
-					<tr>
-						<td>${tour.id}</td>
-						<td><a href="${showContactUrl}/${tour.id}">${tour.name}</a></td>
-						<td>${tour.startDate}</td>
-						<td>${tour.finishDate}</td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-	</c:if>
+	
+	<DIV>
+		<TABLE id="list"><TR><TD /></TR></TABLE>
+	</DIV>
+	<DIV id="pager"></DIV>
+	
+	
 </div>

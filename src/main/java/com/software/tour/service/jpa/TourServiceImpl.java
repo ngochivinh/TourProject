@@ -3,6 +3,8 @@ package com.software.tour.service.jpa;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +27,8 @@ public class TourServiceImpl implements TourService {
 		return Lists.newArrayList(tourRepository.findAll());
 	}
 	
+	
+	
 	@Transactional(readOnly=true)
 	public Tour findById(Long id){
 		return tourRepository.findOne(id);
@@ -32,6 +36,11 @@ public class TourServiceImpl implements TourService {
 	
 	public Tour save(Tour tour) {
 		return tourRepository.save(tour);
+	}
+	
+	@Transactional(readOnly=true)
+	public Page<Tour> findAllByPage(Pageable pageable){
+		return tourRepository.findAll(pageable);
 	}
 	
 }

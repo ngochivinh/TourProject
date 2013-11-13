@@ -17,6 +17,8 @@
 	<spring:message code="label_tour_new" var="labelTourNew"/>
 	<spring:message code="label_tour_update" var="labelTourUpdate"/>
 	<spring:message code="label_tour_status" var="labelTourStatus"/>
+	<spring:message code="label_tour_id" var="labelTourId"/>
+	<spring:message code="label_tour_photo" var="labelTourPhoto"/>
 	
 	<spring:eval expression="tour.id == null ? labelTourNew:labelTourUpdate"
 	var="formTitle"/>
@@ -27,10 +29,18 @@
 	            dateFormat: 'yy-mm-dd',
 	            changeYear: true
 	        });
+	        
 	        $('#startDate').datepicker({ 
 	            dateFormat: 'yy-mm-dd',
 	            changeYear: true
 	        });
+	        
+	        $("#tourDescription").ckeditor(
+	        	{
+	        		toolbar:'Basic',
+	        		uiColor:'#CCCCCC'
+	        	}		
+	        );
 	});
 	 
 	</script>
@@ -38,11 +48,14 @@
 	<h1>${formTitle}</h1>
 	
 	<div id="contactUpdate">
-	<form:form modelAttribute="tour" id="contactUpdateForm" method="post">
+	<form:form modelAttribute="tour" id="contactUpdateForm" method="post"
+		enctype="multipart/form-data">
 	
 		<c:if test="${not empty message}">
 			<div id="message" class="${message.type}">${message.message}</div>
 		</c:if>
+		
+		
 		
 		<form:label path="name">
 		${labelTourName}*
@@ -89,6 +102,12 @@
 		<div>
 			<form:errors path="status" cssClass="error" />
 		</div>
+		<p/>
+		
+		<label for="file">
+			${labelTourPhoto}
+		</label>
+		<input name="file" type="file"/>
 		<p/>
 		
 		<button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">

@@ -17,10 +17,13 @@
 	<spring:message code="date_format_pattern" var="dateFormatPattern"/>
 	<spring:message code="label_tour_update" var="labelTourUpdate"/>
 	<spring:message code="label_tour_status" var="labelTourStatus"/>
+	<spring:message code="label_tour_delete" var="labelTourDelete"/>
+	<spring:message code="label_tour_photo" var="labelTourPhoto"/>
 
 	
-
+	<spring:url value="/tours/photo" var="tourPhotoUrl"/>
 	<spring:url value="/tours" var="editTourUrl"/>
+	<spring:url value="/list" var="deleteTourUrl"/>
 	
 	<h1>${labelTourInfo}</h1>
 	
@@ -53,7 +56,13 @@
 				<td>${labelTourStatus}</td>
 				<td>${tour.status}</td>
 			</tr>
+			<tr>
+				<td>${labelTourPhoto}</td>
+				<td><img src="${tourPhotoUrl}/${tour.id}"></img></td>
+			</tr>
 		</table>
 <a href="${editTourUrl}/${tour.id}?form">${labelTourUpdate}</a>
+<P />
+<a href="${editTourUrl}/${tour.id}">${labelTourDelete}</a>
 </div>
 </div>

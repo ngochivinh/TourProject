@@ -35,11 +35,15 @@
 		<tx:annotation-driven transaction-manager="transactionManager" />
 		
 		<bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		
 			<property name="dataSource" ref="dataSource" />
+			
 			<property name="jpaVendorAdapter">
 				<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
 			</property>
+			
 			<property name="packagesToScan" value="com.software.tour.domain"/>
+			
 			<property name="jpaProperties">
 				<props>
 					<prop key="hibernate.dialect">
@@ -51,6 +55,7 @@
 					<prop key="hibernate.show_sql">true</prop>
 				</props>
 			</property>
+			
 		</bean>
 		
 		<context:annotation-config/>

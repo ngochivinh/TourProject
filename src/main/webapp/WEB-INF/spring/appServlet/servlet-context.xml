@@ -61,7 +61,7 @@
 	
 	
 	<!-- Add the following beans -->
-<!-- Tiles Configuration -->
+	<!-- Tiles Configuration -->
 	<beans:bean class="org.springframework.web.servlet.view.UrlBasedViewResolver"
 	id="tilesViewResolver">
 		<beans:property name="viewClass"
@@ -81,8 +81,8 @@
 		</beans:property>
 	</beans:bean>
 	
-	
-	
-	
+	<beans:bean
+		class="org.springframework.web.multipart.support.StandardServletMultipartResolver"
+		id="multipartResolver"/>
 	
 	</beans:beans>
