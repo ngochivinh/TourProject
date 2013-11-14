@@ -17,6 +17,7 @@ version="2.0">
 	
 	<SCRIPT type="text/javascript">
 	$(function(){
+		
 		$("#list").jqGrid({
 		url:'${showTourUrl}/listgrid',
 		datatype: 'json',
@@ -39,6 +40,7 @@ version="2.0">
 			repeatitems: false,
 			id: "id"
 		},
+		
 		pager: '#pager',
 		rowNum:10,
 		rowList:[10,20,30],

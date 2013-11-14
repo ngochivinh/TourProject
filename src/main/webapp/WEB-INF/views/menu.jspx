@@ -8,8 +8,11 @@
 		
 		<spring:message code="menu_header_text" var="menuHeaderText"/>
 		<spring:message code="menu_add_tour" var="menuAddTour"/>
-		<spring:url value="/tours?form" var="addUserUrl"/>
+		<spring:url value="/tours?form" var="addTourUrl"/>
+		
+		<spring:message code="label_login" var="labelLogin"/>
+		<spring:url value="/j_spring_security" />
 		
 	<h3>${menuHeaderText}</h3>
-	<a href="${addUserUrl}"><h3>${menuAddTour}</h3></a>
+	<a href="${addTourUrl}"><h3>${menuAddTour}</h3></a>
 </div>
