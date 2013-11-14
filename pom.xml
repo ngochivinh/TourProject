@@ -266,6 +266,11 @@
 			<artifactId>jackson-mapper-lgpl</artifactId>
 			<version>1.9.2</version>
 		</dependency>
+		<dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+			<version>3.0.1</version>
+		</dependency>
 	</dependencies>
 	
 	
