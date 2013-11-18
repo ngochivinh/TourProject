@@ -31,6 +31,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.software.tour.domain.Hotel;
 import com.software.tour.service.HotelService;
+import com.software.tour.service.jpa.MyPageRequest;
 import com.software.tour.util.UrlUtil;
 import com.software.tour.web.form.HotelGrid;
 
@@ -197,15 +198,19 @@ public class HotelController {
 		
 		//Construcs page request for current page
 		//Note: page number for Spring Data JPA starts with 0, While jqGrid Starts with 1
-		PageRequest pageRequest = null;
+		//PageRequest pageRequest = null;
+		MyPageRequest myPageRequest = null;
 		
 		if(sort!=null){
-			pageRequest = new PageRequest(page-1,rows,sort);
+			//pageRequest = new PageRequest(page-1,rows,sort);
+			myPageRequest = new MyPageRequest(page-1,rows,"abc",sort);
 		}else{
-			pageRequest = new PageRequest(page-1,rows);
+			//pageRequest = new PageRequest(page-1,rows);
+			myPageRequest = new MyPageRequest(page-1,rows,"abc");
 		}
 		
-		Page<Hotel> hotelPage = hotelService.findAllByPage(pageRequest);
+		//Page<Hotel> hotelPage = hotelService.findAllByPage(pageRequest);
+		Page<Hotel> hotelPage = hotelService.search(myPageRequest);
 		
 		//Construct the grid data that will return as JSON data
 		HotelGrid hotelGrid = new HotelGrid();
