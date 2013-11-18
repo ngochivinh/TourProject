@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?> 
+<div xmlns:jsp="http://java.sun.com/JSP/Page" 
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:spring="http://www.springframework.org/tags" 
+	xmlns:form="http://www.springframework.org/tags/form" 
+	xmlns:joda="http://www.joda.org/joda/time/tags" 
+	version="2.0"> 
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/> 
+	<jsp:output omit-xml-declaration="yes"/> 
+	<spring:message code="label_restaurant_information" var="labelRestaurantInfo"/>
+	<spring:message code="label_restaurant_id" var="labelRestaurantID"/> 
+	<spring:message code="label_restaurant_name" var="labelRestaurantName"/> 
+	<spring:message code="label_restaurant_phone" var="labelRestaurantPhone"/>
+	<spring:message code="label_restaurant_address" var="labelRestaurantAddress"/>
+	<spring:message code="label_restaurant_email" var="labelRestaurantEmail"/>
+	<spring:message code="label_restaurant_price" var="labelRestaurantPrice"/>
+	<spring:message code="label_restaurant_description" var="labelRestaurantDescription"/>
+	<spring:message code="label_restaurant_photo" var="labelRestaurantPhoto"/>
+	<spring:url value="/restaurants/photo" var="restaurantPhotoUrl"/>
+	<spring:url value="/restaurants" var="editRestaurantUrl"/> 
+	<h1>${labelRestaurantInfo}</h1> 
+	<div id="restaurantInformation">
+		<c:if test="${not empty message}"> 
+			<div id="message" class="${message.type}">${message.message}</div> 
+		</c:if> 
+		<table>  
+			<tr> 
+				<td>${labelRestaurantID}</td> 
+				<td>${restaurant.id}</td> 
+			</tr>
+			<tr> 
+				<td>${labelRestaurantName}</td>
+				<td>${restaurant.name}</td> 
+			</tr> 
+			<tr> 
+				<td>${labelRestaurantPhone}</td>
+				<td>${restaurant.phone}</td> 
+			</tr>
+			<tr> 
+				<td>${labelRestaurantAddress}</td>
+				<td>${restaurant.address}</td> 
+			</tr> 
+			<tr> 
+				<td>${labelRestaurantEmail}</td>
+				<td>${restaurant.email}</td> 
+			</tr> 
+			<tr> 
+				<td>${labelRestaurantPrice}</td>
+				<td>${restaurant.price}</td> 
+			</tr>
+			<tr> 
+				<td>${labelRestaurantDescription}</td>
+				<td>${restaurant.description}</td> 
+			</tr>
+			<tr>
+				<td>${labelRestaurantPhoto}</td>
+				<td><img src="${restaurantPhotoUrl}/${restaurant.id}" width="400" height="300"></img></td>
+			</tr>
+		</table>
+		<UL>
+			<LI /><a href="${editRestaurantUrl}/${restaurant.id}?form">Edit restaurant</a>
+			<LI /><a href="${editRestaurantUrl}/${restaurant.id}?delete">Delete restaurant</a>
+		</UL>
+	</div> 
+</div>

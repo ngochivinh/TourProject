@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form"
+	version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+	<jsp:output omit-xml-declaration="yes"/>
+	
+	<spring:message code="label_hotel_list" var="labelHotelList"/> 
+	<spring:message code="label_hotel_id" var="labelHotelID"/> 
+	<spring:message code="label_hotel_name" var="labelHotelName"/> 
+	<spring:message code="label_hotel_phone" var="labelHotelPhone"/>
+	<spring:message code="label_hotel_address" var="labelHotelAddress"/>
+	<spring:message code="label_hotel_email" var="labelHotelEmail"/>
+	<spring:message code="label_hotel_price" var="labelHotelPrice"/>
+	<spring:message code="label_hotel_description" var="labelHotelDescription"/>
+	<spring:message code="label_hotel_photo" var="labelHotelPhoto"/>
+	<spring:message code="label_hotel_new" var="labelHotelNew"/>
+	<spring:message code="label_hotel_update" var="labelHotelUpdate"/>
+	
+	<spring:eval expression="hotel.id == null ? labelHotelNew:labelHotelUpdate"
+	var="formTitle"/>
+	<script type="text/javascript">
+		$(function(){
+			$("#hotelDescription").ckeditor( 
+				{ 
+				toolbar : 'Basic', 
+				uiColor : '#CCCCCC'
+				});
+			
+		});
+	</script>
+	<h1>${formTitle}</h1>
+	
+	<div id="hotelUpdate">
+	<form:form modelAttribute="hotel" id="hotelUpdateForm" method="post" enctype="multipart/form-data">
+	
+		<c:if test="${not empty message}">
+			<div id="message" class="${message.type}">${message.message}</div>
+		</c:if>
+		
+		<form:label path="name">
+		${labelHotelName}*
+		</form:label>
+		<form:input path="name" />
+		<div>
+			<form:errors path="name" cssClass="error" />
+		</div>
+		<p/>
+		
+		<form:label path="phone">
+		${labelHotelPhone}*
+		</form:label>
+		<form:input path="phone" />
+		<div>
+			<form:errors path="phone" cssClass="error" />
+		</div>
+		<p/>
+		
+		<form:label path="address">
+		${labelHotelAddress}*
+		</form:label>
+		<form:input path="address" />
+		<div>
+			<form:errors path="address" cssClass="error" />
+		</div>
+		<p/>
+		
+		<form:label path="email">
+		${labelHotelEmail}*
+		</form:label>
+		<form:input path="email" />
+		<div>
+			<form:errors path="email" cssClass="error" />
+		</div>
+		<p/>
+		
+		<form:label path="price">
+			${labelHotelPrice}*
+		</form:label>
+		<form:input path="price" />
+		<div>
+			<form:errors path="price" cssClass="error" />
+		</div>
+		<p/>
+		
+		<form:label path="description">
+			${labelHotelDescription}
+		</form:label>
+		<form:textarea cols="60" rows="8" path="description" id="hotelDescription"/>
+		<div>
+			<form:errors path="description" cssClass="error" />
+		</div>
+		<p/>
+		
+		<label for="file">
+			${labelHotelPhoto}
+		</label>
+		<input name="file" type="file"/>
+		<p/>
+		
+		<button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+			<SPAN class="ui-button-text">Save</SPAN>
+		</button>
+		<button type="reset" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+			<SPAN class="ui-button-text">Reset</SPAN>
+		</button>
+		
+	</form:form>
+	</div>
+</div>

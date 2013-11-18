@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div id="menu" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	version="2.0">
+		<jsp:directive.page contentType="text/html;charset=UTF-8" />
+		<jsp:output omit-xml-declaration="yes" />
+		
+		<spring:message code="menu_header_text" var="menuHeaderText"/>
+		<!-- moi -->
+		<spring:message code="menu_add_restaurant" var="menuAddRestaurant"/>
+		<spring:message code="menu_list_restaurant" var="menuListRestaurant"/>
+		<spring:url value="/restaurants?form" var="addRestaurantUrl"/>
+		<spring:url value="/restaurants" var="listRestaurantUrl"/>
+		
+	<h3>${menuHeaderText}</h3>
+	<a href="${listRestaurantUrl}"><h3>${menuListRestaurant}</h3></a>
+	<a href="${addRestaurantUrl}"><h3>${menuAddRestaurant}</h3></a>
+</div>

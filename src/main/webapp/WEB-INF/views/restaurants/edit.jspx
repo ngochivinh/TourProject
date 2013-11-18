@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form"
+	version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+	<jsp:output omit-xml-declaration="yes"/>
+	
+	<spring:message code="label_restaurant_list" var="labelRestaurantList"/> 
+	<spring:message code="label_restaurant_id" var="labelRestaurantID"/> 
+	<spring:message code="label_restaurant_name" var="labelRestaurantName"/> 
+	<spring:message code="label_restaurant_phone" var="labelRestaurantPhone"/>
+	<spring:message code="label_restaurant_address" var="labelRestaurantAddress"/>
+	<spring:message code="label_restaurant_email" var="labelRestaurantEmail"/>
+	<spring:message code="label_restaurant_price" var="labelRestaurantPrice"/>
+	<spring:message code="label_restaurant_description" var="labelRestaurantDescription"/>
+	<spring:message code="label_restaurant_photo" var="labelRestaurantPhoto"/>
+	<spring:message code="label_restaurant_new" var="labelRestaurantNew"/>
+	<spring:message code="label_restaurant_update" var="labelRestaurantUpdate"/>
+	
+	<spring:eval expression="restaurant.id == null ? labelRestaurantNew:labelRestaurantUpdate"
+	var="formTitle"/>
+	<script type="text/javascript">
+		$(function(){
+			$("#restaurantDescription").ckeditor( 
+				{ 
+				toolbar : 'Basic', 
+				uiColor : '#CCCCCC'
+				});
+			
+		});
+	</script>
+	<h1>${formTitle}</h1>
+	
+	<div id="restaurantUpdate">
+	<form:form modelAttribute="restaurant" id="restaurantUpdateForm" method="post" enctype="multipart/form-data">
+	
+		<c:if test="${not empty message}">
+			<div id="message" class="${message.type}">${message.message}</div>
+		</c:if>
+		
+		<form:label path="name">
+		${labelRestaurantName}*
+		</form:label>
+		<form:input path="name" />
+		<div>
+			<form:errors path="name" cssClass="error" />
+		</div>
+		<p/>
+		
+		<form:label path="phone">
+		${labelRestaurantPhone}*
+		</form:label>
+		<form:input path="phone" />
+		<div>
+			<form:errors path="phone" cssClass="error" />
+		</div>
+		<p/>
+		
+		<form:label path="address">
+		${labelRestaurantAddress}*
+		</form:label>
+		<form:input path="address" />
+		<div>
+			<form:errors path="address" cssClass="error" />
+		</div>
+		<p/>
+		
+		<form:label path="email">
+		${labelRestaurantEmail}*
+		</form:label>
+		<form:input path="email" />
+		<div>
+			<form:errors path="email" cssClass="error" />
+		</div>
+		<p/>
+		
+		<form:label path="price">
+			${labelRestaurantPrice}*
+		</form:label>
+		<form:input path="price" />
+		<div>
+			<form:errors path="price" cssClass="error" />
+		</div>
+		<p/>
+		
+		<form:label path="description">
+			${labelRestaurantDescription}
+		</form:label>
+		<form:textarea cols="60" rows="8" path="description" id="restaurantDescription"/>
+		<div>
+			<form:errors path="description" cssClass="error" />
+		</div>
+		<p/>
+		
+		<label for="file">
+			${labelRestaurantPhoto}
+		</label>
+		<input name="file" type="file"/>
+		<p/>
+		
+		<button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+			<SPAN class="ui-button-text">Save</SPAN>
+		</button>
+		<button type="reset" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+			<SPAN class="ui-button-text">Reset</SPAN>
+		</button>
+		
+	</form:form>
+	</div>
+</div>

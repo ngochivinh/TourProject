@@ -1,7 +1,9 @@
 package com.software.tour.domain;
 
 import static javax.persistence.GenerationType.IDENTITY;
+
 import java.io.Serializable;
+
 import javax.persistence.*;
 
 import org.hibernate.annotations.Type;
@@ -14,10 +16,10 @@ public class Restaurant implements Serializable {
 	@Id
 	@GeneratedValue(strategy=IDENTITY)
 	@Column(name = "Id")
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	
@@ -54,19 +56,11 @@ public class Restaurant implements Serializable {
 	}
 	
 	@Column(name = "Price")
-	public double getPrice() {
+	public float getPrice() {
 		return price;
 	}
-	public void setPrice(double price) {
+	public void setPrice(float price) {
 		this.price = price;
-	}
-	
-	@Column(name = "Status")
-	public boolean isStatus() {
-		return status;
-	}
-	public void setStatus(boolean status) {
-		this.status = status;
 	}
 	
 	@Column(name = "Description")
@@ -76,14 +70,20 @@ public class Restaurant implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	
-	private int id;
+	@Basic(fetch=FetchType.LAZY)
+	@Lob @Column(name="Photo")
+	public byte[] getPhoto() {
+		return photo;
+	}
+	public void setPhoto(byte[] photo) {
+		this.photo = photo;
+	}
+	private Long id;
 	private String name;
 	private String phone;
 	private String address;
 	private String email;
-	private double price;
-	private boolean status;
+	private float price;
 	private String description;
+	private byte[] photo;
 }

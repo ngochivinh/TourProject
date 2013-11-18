@@ -1,0 +1,23 @@
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration
+2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+	<definition extends="hotel_layout" name="hotels/list">
+		<put-attribute name="body"
+		value="/WEB-INF/views/hotels/list.jspx" />
+	</definition>
+	
+	<definition extends="hotel_layout" name="hotels/show">
+		<put-attribute name="body"
+		value="/WEB-INF/views/hotels/show.jspx" />
+	</definition>
+	
+	<definition extends="hotel_layout" name="hotels/update">
+		<put-attribute name="body"
+		value="/WEB-INF/views/hotels/edit.jspx" />
+	</definition>
+	
+	<definition extends="hotel_layout" name="hotels/create">
+		<put-attribute name="body"
+		value="/WEB-INF/views/hotels/edit.jspx" />
+	</definition>
+</tiles-definitions>
