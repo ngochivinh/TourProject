@@ -172,13 +172,12 @@ public class HotelController {
 		return hotel.getPhoto();
 	}
 	
-	@RequestMapping(value="/listgrid", method = RequestMethod.GET,
-			produces="application/json")
+	@RequestMapping(value="/listgrid/{str}", method = RequestMethod.GET, produces="application/json")
 	@ResponseBody
 	public HotelGrid listGrid(@RequestParam(value="page",required=false)Integer page,
 			@RequestParam(value = "rows", required = false) Integer rows,
 			@RequestParam(value = "sidx", required = false) String sortBy,
-			@RequestParam(value = "sord", required = false) String order){
+			@RequestParam(value = "sord", required = false) String order, @PathVariable("str") String str){
 		
 		logger.info("Listing tours for grid with page:{}, rows: {}",page,rows);
 		logger.info("Listing tours for grid woth sort:{}, order: {}", sortBy, order);
@@ -203,10 +202,10 @@ public class HotelController {
 		
 		if(sort!=null){
 			//pageRequest = new PageRequest(page-1,rows,sort);
-			myPageRequest = new MyPageRequest(page-1,rows,"abc",sort);
+			myPageRequest = new MyPageRequest(page-1,rows,str,sort);
 		}else{
 			//pageRequest = new PageRequest(page-1,rows);
-			myPageRequest = new MyPageRequest(page-1,rows,"abc");
+			myPageRequest = new MyPageRequest(page-1,rows,str);
 		}
 		
 		//Page<Hotel> hotelPage = hotelService.findAllByPage(pageRequest);

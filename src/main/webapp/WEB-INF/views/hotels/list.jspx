@@ -16,14 +16,15 @@ version="2.0">
 	<spring:url value="/hotels" var="showHotelUrl"/>
 	
 	<SCRIPT type="text/javascript">
+	var str = '12345678901';
 	$(function(){
 		$("#list").jqGrid({
-		url:'${showHotelUrl}/listgrid',
+		url:'${showHotelUrl}/listgrid/'+str,
 		datatype: 'json',
 		mtype: 'GET',
 		
 		colNames:['${labelHotelName}', '${labelHotelPhone}',
-			'${labelHotelAddress}', '${labelHotelAddress}'],
+			'${labelHotelAddress}', '${labelHotelEmail}'],
 			
 		colModel :[
 			{name:'name', index:'name', width:50},
