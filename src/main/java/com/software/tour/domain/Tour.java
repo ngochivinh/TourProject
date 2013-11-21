@@ -46,7 +46,7 @@ public class Tour implements Serializable {
 		this.capacity = capacity;
 	}
 	
-	@Column(name="Cus_num")
+	@Column(name="CusNum")
 	public int getNumCustomer() {
 		return numCustomer;
 	}
@@ -54,7 +54,7 @@ public class Tour implements Serializable {
 		this.numCustomer = numCustomer;
 	}
 	
-	@Column(name="Can_num")
+	@Column(name="CancelNumber")
 	public int getCancelCustomer() {
 		return cancelCustomer;
 	}
@@ -123,12 +123,12 @@ public class Tour implements Serializable {
 		this.category = category;
 	}
 	
-	@Column(name="Guild")
-	public String getGuild() {
-		return guild;
+	@Column(name="Guide")
+	public String getGuide() {
+		return guide;
 	}
-	public void setGuild(String guild) {
-		this.guild = guild;
+	public void setGuide(String guide) {
+		this.guide = guide;
 	}
 	
 	@Column(name="Status")
@@ -138,6 +138,26 @@ public class Tour implements Serializable {
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
+	
+	@Transient
+	public String getStartDateString(){
+		String startDateString="";
+		if(startDate!=null){
+			startDateString = org.joda.time.format.DateTimeFormat.forPattern("yyyy-MM-dd").print(startDate);
+		}
+		return startDateString;
+	}
+	
+	@Transient
+	public String getFinishDateString(){
+		String finishDateString="";
+		if(finishDate!=null){
+			finishDateString = org.joda.time.format.DateTimeFormat.forPattern("yyyy-MM-dd").print(finishDate);
+		}
+		return finishDateString;
+	}
+	
+	
 	private Long id;
 	private String name;
 	private int capacity;
@@ -150,6 +170,6 @@ public class Tour implements Serializable {
 	private float price;
 	private byte[] photo;
 	private String category;
-	private String guild;
+	private String guide;
 	private boolean status;
 }

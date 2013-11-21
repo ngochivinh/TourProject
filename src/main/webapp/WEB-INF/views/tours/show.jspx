@@ -58,11 +58,16 @@
 			</tr>
 			<tr>
 				<td>${labelTourPhoto}</td>
-				<td><img src="${tourPhotoUrl}/${tour.id}"></img></td>
+				<td><img src="${tourPhotoUrl}/${tour.id}" width="400" height="300"></img></td>
 			</tr>
 		</table>
-<a href="${editTourUrl}/${tour.id}?form">${labelTourUpdate}</a>
-<P />
-<a href="${editTourUrl}/${tour.id}">${labelTourDelete}</a>
-</div>
+		<UL>
+			<LI /><a href="${editTourUrl}/${tour.id}?form">${labelTourUpdate}</a>
+			<LI /><a href="${editTourUrl}/${tour.id}?delete">${labelTourDelete}</a>
+		</UL>
+		
+		
+		
+
+	</div>
 </div>

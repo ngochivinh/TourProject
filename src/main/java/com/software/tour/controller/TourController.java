@@ -20,6 +20,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -55,6 +56,7 @@ public class TourController {
 		return "tours/list";
 	}
 	
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
 	public String show(@PathVariable("id")Long id,Model uiModel){
 		Tour tour = tourService.findById(id);
@@ -65,9 +67,13 @@ public class TourController {
 	@Autowired
 	MessageSource messageSource;
 	
+	
+	
+	
 	@RequestMapping(value = "/{id}", params = "form", method=RequestMethod.POST)
 	public String update(Tour tour, BindingResult bindingResult, Model uiModel,
-			HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale){
+			HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale,
+			@RequestParam(value="file", required=false)Part file){
 		logger.info("Update Tour");
 		
 		if(bindingResult.hasErrors()){
@@ -79,6 +85,23 @@ public class TourController {
 		uiModel.asMap().clear();
 		redirectAttributes.addFlashAttribute("message", new Message("success",
 				messageSource.getMessage("tour_save_success", new Object[]{},locale)));
+		
+		//process upload File
+		if(file!=null){
+			logger.info("File name: "+file.getName());
+			logger.info("File size: "+file.getSize());
+			logger.info("File content type: "+ file.getContentType());
+			byte[] fileContent = null;
+			try{
+				InputStream inputStream = file.getInputStream();
+				if(inputStream==null) logger.info("File inputstream is null");
+				fileContent=IOUtils.toByteArray(inputStream);
+				tour.setPhoto(fileContent);
+			}catch(IOException ex){
+				logger.info("Error saving upload file");
+			}
+			tour.setPhoto(fileContent);
+		}
 		tourService.save(tour);
 		return "redirect:/tours/" + UrlUtil.encodeUrlPathSegment(tour.getId().toString(),httpServletRequest);
 		
@@ -90,6 +113,9 @@ public class TourController {
 		uiModel.addAttribute("tour", tourService.findById(id));
 		return "tours/update";
 	}
+	
+	
+	
 	
 	
 	@RequestMapping(params = "form", method=RequestMethod.POST)
@@ -132,6 +158,7 @@ public class TourController {
 			UrlUtil.encodeUrlPathSegment(tour.getId().toString(),httpServletRequest);
 	}
 	
+	
 	@RequestMapping(value = "/photo/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public byte[] downloadPhoto(@PathVariable("id")Long id){
@@ -145,6 +172,9 @@ public class TourController {
 		return tour.getPhoto();
 	}
 	
+	
+	
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(params="form",method=RequestMethod.GET)
 	public String createForm(Model uiModel){
 		logger.info("Start!");
@@ -153,11 +183,33 @@ public class TourController {
 		return "tours/create";
 	}
 	
-	/*@RequestMapping(value="/{id}",method=RequestMethod.POST)
-	public String delete(@PathVariable("id")Long id,Model uiModel){
-		tourService.delete(id);
-		return "tours/show";
-	}*/
+	
+	
+	
+	
+	
+	@RequestMapping(value="/{id}",params="delete",method=RequestMethod.GET)
+	public String delete(@PathVariable("id")Long id,Model uiModel, RedirectAttributes redirectAttributes, Locale locale){
+		
+		if(tourService.findById(id)!=null){
+			tourService.delete(tourService.findById(id));
+			if(tourService.findById(id)==null){
+				uiModel.addAttribute("message",new Message("success",
+						messageSource.getMessage("tour_save_success", new Object[]{},locale)));
+			}else{
+				uiModel.addAttribute("message",new Message("error",
+						messageSource.getMessage("tour_save_fail", new Object[]{},locale)));
+			}	
+		}else{
+			uiModel.addAttribute("message",new Message("error",
+					messageSource.getMessage("tour_save_fail", new Object[]{},locale)));
+		}
+		return "tours/list";
+		
+	}
+	
+	
+	
 	
 	@RequestMapping(value="/listgrid", method = RequestMethod.GET,
 			produces="application/json")

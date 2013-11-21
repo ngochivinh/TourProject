@@ -44,6 +44,7 @@
 		<script type="text/javascript" src="${jqgrid_locale_url}"><jsp:text/></script>
 		<script type="text/javascript" src="${jqgrid_url}"><jsp:text/></script>
 		
+		
 		<!-- Get the user locale from the page context (it was set by Spring MVC's locale
 			resolver) -->
 		<c:set var="userLocale">
@@ -61,7 +62,7 @@
 			<tiles:insertAttribute name="header" ignore="true" />
 		</div>
 			<div id="wrapper">
-				<tiles:insertAttribute name="hotel_menu" ignore="true" />
+				<tiles:insertAttribute name="menu" ignore="true" />
 				<div id="main">
 					<tiles:insertAttribute name="body"/>
 					<tiles:insertAttribute name="footer" ignore="true"/>

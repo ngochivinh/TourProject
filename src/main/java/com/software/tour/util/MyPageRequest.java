@@ -1,9 +1,8 @@
-package com.software.tour.service.jpa;
+package com.software.tour.util;
 
 import org.springframework.data.domain.Sort;
 
 public class MyPageRequest {
-	
 	public int getPageIndex() {
 		return pageIndex;
 	}
@@ -28,6 +27,7 @@ public class MyPageRequest {
 	public void setSort(Sort sort) {
 		this.sort = sort;
 	}
+	
 	public MyPageRequest(int page, int rows, String search, Sort sort){
 		this.pageIndex = page;
 		this.pageSize = rows;
@@ -39,8 +39,9 @@ public class MyPageRequest {
 		this.pageSize = rows;
 		this.searchTerm = search;
 	}
+	
 	private int pageIndex;
-	private int pageSize;//rows
+	private int pageSize;
 	private String searchTerm;
 	private Sort sort;
 }

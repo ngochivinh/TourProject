@@ -9,15 +9,15 @@
 		
 	<http use-expressions="true">
 		<intercept-url pattern='/*' access='permitAll' />
-		<form-login login-page="/contacts" authentication-failure-url="/security/loginfail"
-			default-target-url="/contacts" />
-		<logout logout-success-url="/contacts"/>
+		<form-login login-page="/admin" authentication-failure-url="/security/loginfail"
+			default-target-url="/admin" />
+		<logout logout-success-url="/admin"/>
 	</http>
 	
 	<authentication-manager>
 		<authentication-provider>
 			<user-service>
-				<user name="user" password="user" authorities="ROLE_USER" />
+				<user name="Admin" password="admin" authorities="ROLE_USER" />
 			</user-service>
 		</authentication-provider>
 	</authentication-manager>
