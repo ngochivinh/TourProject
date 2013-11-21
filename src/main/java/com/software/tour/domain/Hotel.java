@@ -1,69 +1,59 @@
 package com.software.tour.domain;
-
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.io.Serializable;
 
 import javax.persistence.*;
 
-import org.hibernate.annotations.Type;
-
-
 @Entity
-@Table(name="RESTAURANT")
-public class Restaurant implements Serializable {
+@Table(name = "HOTEL")
+public class Hotel implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=IDENTITY)
-	@Column(name = "Id")
+	@Column(name="Id")
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
-	@Column(name = "Name")
+	@Column(name="Name")
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	@Column(name = "Phone")
+	@Column(name="Phone")
 	public String getPhone() {
 		return phone;
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	
-	@Column(name = "Address")
+	@Column(name="Address")
 	public String getAddress() {
 		return address;
 	}
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	
-	@Column(name = "Email")
+	@Column(name="Email")
 	public String getEmail() {
 		return email;
 	}
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	@Column(name = "Price")
-	public float getPrice() {
+	@Column(name="Price")
+	public Float getPrice() {
 		return price;
 	}
-	public void setPrice(float price) {
+	public void setPrice(Float price) {
 		this.price = price;
 	}
-	
-	@Column(name = "Description")
+	@Column(name="Description")
 	public String getDescription() {
 		return description;
 	}
@@ -83,7 +73,7 @@ public class Restaurant implements Serializable {
 	private String phone;
 	private String address;
 	private String email;
-	private float price;
+	private Float price;
 	private String description;
 	private byte[] photo;
 }

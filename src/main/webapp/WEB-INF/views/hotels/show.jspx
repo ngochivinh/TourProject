@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?> 
+<div xmlns:jsp="http://java.sun.com/JSP/Page" 
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:spring="http://www.springframework.org/tags" 
+	xmlns:form="http://www.springframework.org/tags/form" 
+	xmlns:joda="http://www.joda.org/joda/time/tags" 
+	version="2.0"> 
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/> 
+	<jsp:output omit-xml-declaration="yes"/> 
+	<spring:message code="label_hotel_information" var="labelHotelInfo"/>
+	<spring:message code="label_hotel_id" var="labelHotelID"/> 
+	<spring:message code="label_hotel_name" var="labelHotelName"/> 
+	<spring:message code="label_hotel_phone" var="labelHotelPhone"/>
+	<spring:message code="label_hotel_address" var="labelHotelAddress"/>
+	<spring:message code="label_hotel_email" var="labelHotelEmail"/>
+	<spring:message code="label_hotel_price" var="labelHotelPrice"/>
+	<spring:message code="label_hotel_description" var="labelHotelDescription"/>
+	<spring:message code="label_hotel_photo" var="labelHotelPhoto"/>
+	<spring:url value="/hotels/photo" var="hotelPhotoUrl"/>
+	<spring:url value="/hotels" var="editHotelUrl"/> 
+	<h1>${labelHotelInfo}</h1> 
+	<div id="hotelInformation">
+		<c:if test="${not empty message}"> 
+			<div id="message" class="${message.type}">${message.message}</div> 
+		</c:if> 
+		<table>  
+			<tr> 
+				<td>${labelHotelID}</td> 
+				<td>${hotel.id}</td> 
+			</tr>
+			<tr> 
+				<td>${labelHotelName}</td>
+				<td>${hotel.name}</td> 
+			</tr> 
+			<tr> 
+				<td>${labelHotelPhone}</td>
+				<td>${hotel.phone}</td> 
+			</tr>
+			<tr> 
+				<td>${labelHotelAddress}</td>
+				<td>${hotel.address}</td> 
+			</tr> 
+			<tr> 
+				<td>${labelHotelEmail}</td>
+				<td>${hotel.email}</td> 
+			</tr> 
+			<tr> 
+				<td>${labelHotelPrice}</td>
+				<td>${hotel.price}</td> 
+			</tr>
+			<tr> 
+				<td>${labelHotelDescription}</td>
+				<td>${hotel.description}</td> 
+			</tr>
+			<tr>
+				<td>${labelHotelPhoto}</td>
+				<td><img src="${hotelPhotoUrl}/${hotel.id}" width="400" height="300"></img></td>
+			</tr>
+		</table>
+		<UL>
+			<LI /><a href="${editHotelUrl}/${hotel.id}?form">Edit hotel</a>
+			<LI /><a href="${editHotelUrl}/${hotel.id}?delete">Delete hotel</a>
+		</UL>
+	</div> 
+</div>

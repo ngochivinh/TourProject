@@ -1,5 +1,8 @@
 package com.software.tour.controller;
 
+import com.google.common.collect.Lists;
+import com.software.tour.form.Message;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -26,110 +29,69 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.google.common.collect.Lists;
-import com.software.tour.domain.Restaurant;
-import com.software.tour.form.Message;
-import com.software.tour.service.RestaurantService;
+import com.software.tour.domain.Hotel;
+import com.software.tour.service.HotelService;
+import com.software.tour.service.jpa.MyPageRequest;
 import com.software.tour.util.UrlUtil;
-import com.software.tour.web.form.RestaurantGrid;
+import com.software.tour.web.form.HotelGrid;
 
-@RequestMapping("/restaurants")
+@RequestMapping("/hotels")
 @Controller
-public class RestaurantController {
-	private static final Logger logger = LoggerFactory.getLogger(RestaurantController.class);
+public class HotelController {
+	private static final Logger logger = LoggerFactory.getLogger(HotelController.class);
 	
 	@Autowired
-	private RestaurantService restaurantService;
+	private HotelService hotelService;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String list(Model uiModel){
-		logger.info("Listing restaurants");
-		List<Restaurant> restaurants = restaurantService.findAll();
-		uiModel.addAttribute("restaurants", restaurants);
-		logger.info("No. of restaurant:" + restaurants.size());
-		return "restaurants/list";
+		logger.info("Listing hotels");
+		List<Hotel> hotels = hotelService.findAll();
+		uiModel.addAttribute("hotels", hotels);
+		logger.info("No. of hotel:" + hotels.size());
+		return "hotels/list";
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET) 
 	public String show(@PathVariable("id") Long id, Model uiModel) { 
-		Restaurant restaurant = restaurantService.findById(id); 
-		uiModel.addAttribute("restaurant", restaurant); 
-		return "restaurants/show"; 
+		Hotel hotel = hotelService.findById(id); 
+		uiModel.addAttribute("hotel", hotel); 
+		return "hotels/show"; 
 	}
 	
 	@RequestMapping(value = "/{id}", params = "delete", method = RequestMethod.GET) 
 	public String delete(@PathVariable("id") Long id, Model uiModel,
-			HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale) { 
-		if(restaurantService.findById(id)!=null) {
-			restaurantService.delete(restaurantService.findById(id));
-			uiModel.asMap().clear();
-			if(restaurantService.findById(id)==null)
-				uiModel.addAttribute("message", new Message("success", messageSource.getMessage("restaurant_delete_success", new Object[]{}, locale)));
+			HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale) {
+		uiModel.asMap().clear();
+		if(hotelService.findById(id)!=null) {
+			hotelService.delete(hotelService.findById(id));
+			if(hotelService.findById(id)==null)
+				uiModel.addAttribute("message", new Message("success", messageSource.getMessage("hotel_delete_success", new Object[]{}, locale)));
 			else
-				uiModel.addAttribute("message", new Message("error", messageSource.getMessage("restaurant_delete_fail", new Object[]{}, locale)));
+				uiModel.addAttribute("message", new Message("error", messageSource.getMessage("hotel_delete_fail", new Object[]{}, locale)));
 		}
-		else
-		{
-			uiModel.addAttribute("message", new Message("error", messageSource.getMessage("restaurant_non_exist", new Object[]{}, locale)));
+		else {
+			uiModel.addAttribute("message", new Message("error", messageSource.getMessage("hotel_non_exist", new Object[]{}, locale)));
 		}
-		return "restaurants/list";
+		return "hotels/list";
 	}
 	
 	@Autowired
 	MessageSource messageSource;
 	
 	@RequestMapping(value = "/{id}", params = "form", method = RequestMethod.POST) 
-	public String update(Restaurant restaurant, BindingResult bindingResult, Model uiModel, 
+	public String update(Hotel hotel, BindingResult bindingResult, Model uiModel, 
 			HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale,
 			@RequestParam(value="file", required=false) Part file) { 
-		logger.info("Updating contact"); 
+		logger.info("Updating hotel"); 
 		if (bindingResult.hasErrors()) { 
 			uiModel.addAttribute("message",new Message("error",
-					messageSource.getMessage("restaurant_save_fail", new Object[]{},locale)));
-			uiModel.addAttribute("restaurant", restaurant); 
-			return "restaurants/update";
+					messageSource.getMessage("hotel_save_fail", new Object[]{},locale)));
+			uiModel.addAttribute("hotel", hotel); 
+			return "hotels/update";
 		} 
 		uiModel.asMap().clear(); 
-		redirectAttributes.addFlashAttribute("message", new Message("success", messageSource.getMessage("restaurant_save_success", new Object[]{}, locale)));
-		if (file != null) { 
-			logger.info("File name: " + file.getName()); 
-			logger.info("File size: " + file.getSize()); 
-			logger.info("File content type: " + file.getContentType()); 
-			byte[] fileContent = null; 
-			try { 
-				InputStream inputStream = file.getInputStream(); 
-				if (inputStream == null) logger.info("File inputstream is null"); 
-				fileContent = IOUtils.toByteArray(inputStream); 
-				restaurant.setPhoto(fileContent); 
-			} catch (IOException ex) { 
-				logger.error("Error saving uploaded file"); 
-			} 
-				restaurant.setPhoto(fileContent); 
-		}
-		restaurantService.save(restaurant);
-		return "redirect:/restaurants/" + UrlUtil.encodeUrlPathSegment(restaurant.getId().toString(), httpServletRequest); 
-	}
-	
-	@RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET) 
-	public String updateForm(@PathVariable("id") Long id, Model uiModel) { 
-		uiModel.addAttribute("restaurant", restaurantService.findById(id)); 
-		return "restaurants/update"; 
-	}
-	
-	@RequestMapping(params = "form", method=RequestMethod.POST)
-	public String create(Restaurant restaurant, BindingResult bindingResult, Model uiModel,
-			HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale,
-			@RequestParam(value="file", required=false) Part file){
-		logger.info("Create Restaurant");
-		
-		if(bindingResult.hasErrors()){
-			uiModel.addAttribute("message",new Message("error",
-					messageSource.getMessage("restaurant_save_fail", new Object[]{},locale)));
-			uiModel.addAttribute("restaurant",restaurant);
-			return "restaurants/create";
-		}
-		uiModel.asMap().clear();
-		redirectAttributes.addFlashAttribute("message", new Message("success", messageSource.getMessage("restaurant_save_success", new Object[]{},locale)));
+		redirectAttributes.addFlashAttribute("message", new Message("success", messageSource.getMessage("hotel_save_success", new Object[]{}, locale)));
 		// Process upload file 
 		if (file != null) { 
 			logger.info("File name: " + file.getName()); 
@@ -140,43 +102,82 @@ public class RestaurantController {
 				InputStream inputStream = file.getInputStream(); 
 				if (inputStream == null) logger.info("File inputstream is null"); 
 				fileContent = IOUtils.toByteArray(inputStream); 
-				restaurant.setPhoto(fileContent); 
+				hotel.setPhoto(fileContent); 
 			} catch (IOException ex) { 
 				logger.error("Error saving uploaded file"); 
 			} 
-				restaurant.setPhoto(fileContent); 
+				hotel.setPhoto(fileContent); 
 		}
-		restaurantService.save(restaurant);
-		//logger.info("Restaurant info: "+restaurant.getId()+" "+restaurant.getName()+" "+restaurant.getPhone()+" "+restaurant.getAddress()+" "+restaurant.getEmail()+" "+restaurant.getPrice()+" "+restaurant.getDescription());
-		return "redirect:/restaurants/" + UrlUtil.encodeUrlPathSegment(restaurant.getId().toString(),httpServletRequest);
+		hotelService.save(hotel);
+		return "redirect:/hotels/" + UrlUtil.encodeUrlPathSegment(hotel.getId().toString(), httpServletRequest); 
+	}
+	
+	@RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET) 
+	public String updateForm(@PathVariable("id") Long id, Model uiModel) { 
+		uiModel.addAttribute("hotel", hotelService.findById(id)); 
+		return "hotels/update"; 
+	}
+	
+	@RequestMapping(params = "form", method=RequestMethod.POST)
+	public String create(Hotel hotel, BindingResult bindingResult, Model uiModel,
+			HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale,
+			@RequestParam(value="file", required=false) Part file){
+		logger.info("Create Hotel");
+		
+		if(bindingResult.hasErrors()){
+			uiModel.addAttribute("message",new Message("error",
+					messageSource.getMessage("hotel_save_fail", new Object[]{},locale)));
+			uiModel.addAttribute("hotel",hotel);
+			return "hotels/create";
+		}
+		uiModel.asMap().clear();
+		redirectAttributes.addFlashAttribute("message", new Message("success", messageSource.getMessage("hotel_save_success", new Object[]{},locale)));
+		// Process upload file 
+		if (file != null) { 
+			logger.info("File name: " + file.getName()); 
+			logger.info("File size: " + file.getSize()); 
+			logger.info("File content type: " + file.getContentType()); 
+			byte[] fileContent = null; 
+			try { 
+				InputStream inputStream = file.getInputStream(); 
+				if (inputStream == null) logger.info("File inputstream is null"); 
+				fileContent = IOUtils.toByteArray(inputStream); 
+				hotel.setPhoto(fileContent); 
+			} catch (IOException ex) { 
+				logger.error("Error saving uploaded file"); 
+			} 
+				hotel.setPhoto(fileContent); 
+		}
+		hotelService.save(hotel);
+		//logger.info("Hotel info: "+hotel.getId()+" "+hotel.getName()+" "+hotel.getPhone()+" "+hotel.getAddress()+" "+hotel.getEmail()+" "+hotel.getPrice()+" "+hotel.getDescription());
+		return "redirect:/hotels/" + UrlUtil.encodeUrlPathSegment(hotel.getId().toString(),httpServletRequest);
 		
 	}
 	
 	@RequestMapping(params="form",method=RequestMethod.GET)
 	public String createForm(Model uiModel){
 		logger.info("Start!");
-		Restaurant restaurant = new Restaurant();
-		uiModel.addAttribute("restaurant",restaurant);
-		return "restaurants/create";
+		Hotel hotel = new Hotel();
+		uiModel.addAttribute("hotel",hotel);
+		return "hotels/create";
 	}
 	
 	@RequestMapping(value = "/photo/{id}", method = RequestMethod.GET) 
 	@ResponseBody 
 	public byte[] downloadPhoto(@PathVariable("id") Long id) { 
-		Restaurant restaurant = restaurantService.findById(id); 
-		if (restaurant.getPhoto() != null) {
-			logger.info("Downloading photo for id: {} with size: {}", restaurant.getId(), restaurant.getPhoto().length); 
+		Hotel hotel = hotelService.findById(id); 
+		if (hotel.getPhoto() != null) {
+			logger.info("Downloading photo for id: {} with size: {}", hotel.getId(), hotel.getPhoto().length); 
 		}
-		return restaurant.getPhoto();
+		return hotel.getPhoto();
 	}
 	
-	@RequestMapping(value="/listgrid", method = RequestMethod.GET,
-			produces="application/json")
+	@RequestMapping(value="/listgrid/{str}", method = RequestMethod.GET, produces="application/json")
 	@ResponseBody
-	public RestaurantGrid listGrid(@RequestParam(value="page",required=false)Integer page,
+	public HotelGrid listGrid(@RequestParam(value="page",required=false)Integer page,
 			@RequestParam(value = "rows", required = false) Integer rows,
 			@RequestParam(value = "sidx", required = false) String sortBy,
-			@RequestParam(value = "sord", required = false) String order){
+			@RequestParam(value = "sord", required = false) String order, @PathVariable("str") String str){
 		
 		logger.info("Listing tours for grid with page:{}, rows: {}",page,rows);
 		logger.info("Listing tours for grid woth sort:{}, order: {}", sortBy, order);
@@ -196,25 +197,29 @@ public class RestaurantController {
 		
 		//Construcs page request for current page
 		//Note: page number for Spring Data JPA starts with 0, While jqGrid Starts with 1
-		PageRequest pageRequest = null;
+		//PageRequest pageRequest = null;
+		MyPageRequest myPageRequest = null;
 		
 		if(sort!=null){
-			pageRequest = new PageRequest(page-1,rows,sort);
+			//pageRequest = new PageRequest(page-1,rows,sort);
+			myPageRequest = new MyPageRequest(page-1,rows,str,sort);
 		}else{
-			pageRequest = new PageRequest(page-1,rows);
+			//pageRequest = new PageRequest(page-1,rows);
+			myPageRequest = new MyPageRequest(page-1,rows,str);
 		}
 		
-		Page<Restaurant> restaurantPage = restaurantService.findAllByPage(pageRequest);
+		//Page<Hotel> hotelPage = hotelService.findAllByPage(pageRequest);
+		Page<Hotel> hotelPage = hotelService.search(myPageRequest);
 		
 		//Construct the grid data that will return as JSON data
-		RestaurantGrid restaurantGrid = new RestaurantGrid();
+		HotelGrid hotelGrid = new HotelGrid();
 		
-		restaurantGrid.setCurrentPage(restaurantPage.getNumber()+1);
-		restaurantGrid.setTotalPages(restaurantPage.getTotalPages());
-		restaurantGrid.setTotalRecords(restaurantPage.getTotalElements());
+		hotelGrid.setCurrentPage(hotelPage.getNumber()+1);
+		hotelGrid.setTotalPages(hotelPage.getTotalPages());
+		hotelGrid.setTotalRecords(hotelPage.getTotalElements());
 		
-		restaurantGrid.setRestaurantData(Lists.newArrayList(restaurantPage.iterator()));
+		hotelGrid.setHotelData(Lists.newArrayList(hotelPage.iterator()));
 		
-		return restaurantGrid;
+		return hotelGrid;
 	}
 }
