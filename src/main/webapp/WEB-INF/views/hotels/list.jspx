@@ -9,54 +9,60 @@ version="2.0">
 	<jsp:output omit-xml-declaration="yes"/>
 	
 	<spring:message code="label_hotel_list" var="labelHotelList"/>
-	<spring:message code="label_hotel_id" var="labelHotelId"/>
 	<spring:message code="label_hotel_name" var="labelHotelName"/>
 	<spring:message code="label_hotel_phone" var="labelHotelPhone"/>
 	<spring:message code="label_hotel_address" var="labelHotelAddress"/>
+	<spring:message code="label_hotel_email" var="labelHotelEmail"/>
 	<spring:url value="/hotels" var="showHotelUrl"/>
 	
 	<SCRIPT type="text/javascript">
-	var str = '12345678901';
-	$(function(){
-		$("#list").jqGrid({
-		url:'${showHotelUrl}/listgrid/'+str,
-		datatype: 'json',
-		mtype: 'GET',
-		
-		colNames:['${labelHotelName}', '${labelHotelPhone}',
-			'${labelHotelAddress}', '${labelHotelEmail}'],
+		//var str = '12345678901';
+		$(function(){
+			$("#list").jqGrid({
+				url:'${showHotelUrl}/listgrid',
+				datatype: 'json',
+				mtype: 'GET',
+				
+				colNames:['${labelHotelName}', '${labelHotelPhone}',
+					'${labelHotelAddress}', '${labelHotelEmail}'],
+					
+				colModel :[
+					{name:'name', index:'name', width:50},
+					{name:'phone', index:'phone', width:100},
+					{name:'address', index:'address', width:100},
+					{name:'email', index:'email', width:100}
+				],
+				
+				jsonReader : {
+					root:"hotelData",
+					page: "currentPage",
+					total: "totalPages",
+					records: "totalRecords",
+					repeatitems: false,
+					id: "id"
+				},
+				pager: '#pager',
+				rowNum:10,
+				rowList:[10,20,30],
+				sortname: 'name',
+				sortorder: 'asc',
+				viewrecords: true,
+				gridview: true,
+				height: 250,
+				width: 500,
+				caption: '${labelHotelList}',
+				onSelectRow: function(id){
+					document.location.href ="${showHotelUrl}/" + id;
+				}
+			});
 			
-		colModel :[
-			{name:'name', index:'name', width:50},
-			{name:'phone', index:'phone', width:100},
-			{name:'address', index:'address', width:100},
-			{name:'email', index:'email', width:100}
-		],
-		
-		jsonReader : {
-			root:"hotelData",
-			page: "currentPage",
-			total: "totalPages",
-			records: "totalRecords",
-			repeatitems: false,
-			id: "id"
-		},
-		pager: '#pager',
-		rowNum:10,
-		rowList:[10,20,30],
-		sortname: 'name',
-		sortorder: 'asc',
-		viewrecords: true,
-		gridview: true,
-		height: 250,
-		width: 500,
-		caption: '${labelHotelList}',
-		onSelectRow: function(id){
-			document.location.href ="${showHotelUrl}/" + id;
-		}
-	  });
-	});
+		});
 	</SCRIPT>
+	
+	<form method="post">
+		<input type="text" name="searchTerm" size="50" />
+		<input type="submit" name="btnSearch" value="Search" />
+	</form>
 	
 	<c:if test="${not empty message}">
 		<div id="message" class="${message.type}">${message.message}</div>

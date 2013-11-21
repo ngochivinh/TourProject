@@ -13,6 +13,7 @@ version="2.0">
 	<spring:message code="label_restaurant_name" var="labelRestaurantName"/>
 	<spring:message code="label_restaurant_phone" var="labelRestaurantPhone"/>
 	<spring:message code="label_restaurant_address" var="labelRestaurantAddress"/>
+	<spring:message code="label_restaurant_email" var="labelRestaurantEmail"/>
 	<spring:url value="/restaurants" var="showRestaurantUrl"/>
 	
 	<SCRIPT type="text/javascript">
@@ -23,7 +24,7 @@ version="2.0">
 		mtype: 'GET',
 		
 		colNames:['${labelRestaurantName}', '${labelRestaurantPhone}',
-			'${labelRestaurantAddress}', '${labelRestaurantAddress}'],
+			'${labelRestaurantAddress}', '${labelRestaurantEmail}'],
 			
 		colModel :[
 			{name:'name', index:'name', width:50},

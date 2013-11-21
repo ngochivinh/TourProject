@@ -17,11 +17,9 @@ public class HotelSpecifications {
 				String likePattern = getLikePattern(searchTerm);
 				return cb.or(
 					//First name starts with given search term
-					cb.like(cb.lower(root.<String>get(Hotel_.name)), 
-					likePattern),
+					cb.like(cb.lower(root.<String>get(Hotel_.name)), likePattern),
 					//Last name starts with the given search term
-					cb.like(cb.lower(root.<String>get(Hotel_.phone)), 
-					likePattern)
+					cb.like(cb.lower(root.<String>get(Hotel_.phone)), likePattern)
 					);
 			}
 			private String getLikePattern(final String searchTerm) {

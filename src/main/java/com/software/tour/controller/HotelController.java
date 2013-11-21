@@ -39,16 +39,18 @@ import com.software.tour.web.form.HotelGrid;
 @Controller
 public class HotelController {
 	private static final Logger logger = LoggerFactory.getLogger(HotelController.class);
+	private String searchTerm="";
 	
 	@Autowired
 	private HotelService hotelService;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String list(Model uiModel){
-		logger.info("Listing hotels");
+		this.searchTerm = "";
+		/*logger.info("Listing hotels");
 		List<Hotel> hotels = hotelService.findAll();
 		uiModel.addAttribute("hotels", hotels);
-		logger.info("No. of hotel:" + hotels.size());
+		logger.info("No. of hotel:" + hotels.size());*/
 		return "hotels/list";
 	}
 	
@@ -172,12 +174,20 @@ public class HotelController {
 		return hotel.getPhoto();
 	}
 	
-	@RequestMapping(value="/listgrid/{str}", method = RequestMethod.GET, produces="application/json")
+	@RequestMapping(params="searchTerm", method = RequestMethod.POST) 
+	public String search(@RequestParam(value="searchTerm", required=false) String searchTerm, Model uiModel) {
+		this.searchTerm = searchTerm;
+		/*List<Hotel> hotels = hotelService.findAll();
+		uiModel.addAttribute("hotels", hotels);*/
+		return "hotels/list";
+	}
+	
+	@RequestMapping(value="/listgrid", method = RequestMethod.GET, produces="application/json")
 	@ResponseBody
 	public HotelGrid listGrid(@RequestParam(value="page",required=false)Integer page,
 			@RequestParam(value = "rows", required = false) Integer rows,
 			@RequestParam(value = "sidx", required = false) String sortBy,
-			@RequestParam(value = "sord", required = false) String order, @PathVariable("str") String str){
+			@RequestParam(value = "sord", required = false) String order){//, @PathVariable("str") String str
 		
 		logger.info("Listing tours for grid with page:{}, rows: {}",page,rows);
 		logger.info("Listing tours for grid woth sort:{}, order: {}", sortBy, order);
@@ -202,10 +212,10 @@ public class HotelController {
 		
 		if(sort!=null){
 			//pageRequest = new PageRequest(page-1,rows,sort);
-			myPageRequest = new MyPageRequest(page-1,rows,str,sort);
+			myPageRequest = new MyPageRequest(page-1,rows,searchTerm,sort);
 		}else{
 			//pageRequest = new PageRequest(page-1,rows);
-			myPageRequest = new MyPageRequest(page-1,rows,str);
+			myPageRequest = new MyPageRequest(page-1,rows,searchTerm);
 		}
 		
 		//Page<Hotel> hotelPage = hotelService.findAllByPage(pageRequest);
