@@ -12,15 +12,16 @@
 		<spring:message code="menu_management_hotel" var="menuManageHotel"/>
 		<spring:message code="menu_management_restaurant" var="menuManageRestaurant"/>
 		<spring:url value="/tours" var="tourUrl"/>
-		<spring:url value="/tours" var="listTourUrl"/>
+		<spring:url value="/hotels" var="hotelUrl"/>
+		<spring:url value="/restaurants" var="restaurantUrl"/>
 		
 		
 		
 	<h3>${menuHeaderText}</h3>
 	<sec:authorize access="hasRole('ROLE_USER')">
 		<a href="${tourUrl}"><h3>${menuManageTour}</h3></a>
-		<a href="${listTourUrl}"><h3>${menuManageHotel}</h3></a>
-		<a href="${listTourUrl}"><h3>${menuManageRestaurant}</h3></a>
+		<a href="${hotelUrl}"><h3>${menuManageHotel}</h3></a>
+		<a href="${restaurantUrl}"><h3>${menuManageRestaurant}</h3></a>
 	</sec:authorize>
 	
 	
