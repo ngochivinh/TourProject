@@ -9,7 +9,6 @@ version="2.0">
 	<jsp:output omit-xml-declaration="yes"/>
 	
 	<spring:message code="label_restaurant_list" var="labelRestaurantList"/>
-	<spring:message code="label_restaurant_id" var="labelRestaurantId"/>
 	<spring:message code="label_restaurant_name" var="labelRestaurantName"/>
 	<spring:message code="label_restaurant_phone" var="labelRestaurantPhone"/>
 	<spring:message code="label_restaurant_address" var="labelRestaurantAddress"/>
@@ -27,10 +26,10 @@ version="2.0">
 			'${labelRestaurantAddress}', '${labelRestaurantEmail}'],
 			
 		colModel :[
-			{name:'name', index:'name', width:50},
+			{name:'name', index:'name', width:150},
 			{name:'phone', index:'phone', width:100},
-			{name:'address', index:'address', width:100},
-			{name:'email', index:'email', width:100}
+			{name:'address', index:'address', width:300},
+			{name:'email', index:'email', width:150}
 		],
 		
 		jsonReader : {
@@ -49,7 +48,7 @@ version="2.0">
 		viewrecords: true,
 		gridview: true,
 		height: 250,
-		width: 500,
+		width: 700,
 		caption: '${labelRestaurantList}',
 		onSelectRow: function(id){
 			document.location.href ="${showRestaurantUrl}/" + id;
@@ -61,7 +60,21 @@ version="2.0">
 	<c:if test="${not empty message}">
 		<div id="message" class="${message.type}">${message.message}</div>
 	</c:if>
-	
+	<form method="post">
+		<table style="width: 700px;" cellspacing="0" cellpadding="0">
+			<tr>
+				<td style="width: 480px; text-align: center;">
+					<input type="text" name="searchTerm" style="width: 100%; height: 25px;" value="${searchTerm}" />
+				</td>
+				<td style="width: 60px; text-align: center;">
+					<input type="submit" name="btnSearch" value="Search" style="width: 100%; height: 30px;" class="ui-widget ui-state-default ui-corner-all" />
+				</td>
+				<td style="width: 60px; text-align: center;">
+					<input type="submit"  name="btnClear" value="Clear" style="width: 100%; height: 30px;" class="ui-widget ui-state-default ui-corner-all" />
+				</td>
+			</tr>
+		</table>
+	</form>
 	<h1>${labelRestaurantList}</h1>
 	
 	<DIV>

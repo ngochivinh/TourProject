@@ -30,6 +30,7 @@ import com.google.common.collect.Lists;
 import com.software.tour.domain.Restaurant;
 import com.software.tour.form.Message;
 import com.software.tour.service.RestaurantService;
+import com.software.tour.util.MyPageRequest;
 import com.software.tour.util.UrlUtil;
 import com.software.tour.web.form.RestaurantGrid;
 
@@ -37,16 +38,15 @@ import com.software.tour.web.form.RestaurantGrid;
 @Controller
 public class RestaurantController {
 	private static final Logger logger = LoggerFactory.getLogger(RestaurantController.class);
+	private String searchTerm="";
 	
 	@Autowired
 	private RestaurantService restaurantService;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String list(Model uiModel){
-		logger.info("Listing restaurants");
-		List<Restaurant> restaurants = restaurantService.findAll();
-		uiModel.addAttribute("restaurants", restaurants);
-		logger.info("No. of restaurant:" + restaurants.size());
+		this.searchTerm = "";
+		uiModel.addAttribute("searchTerm", searchTerm);
 		return "restaurants/list";
 	}
 	
@@ -170,6 +170,20 @@ public class RestaurantController {
 		return restaurant.getPhoto();
 	}
 	
+	@RequestMapping(params="searchTerm", method = RequestMethod.POST) 
+	public String search(@RequestParam(value="searchTerm", required=false) String searchTerm, Model uiModel) {
+		this.searchTerm = searchTerm;
+		uiModel.addAttribute("searchTerm", searchTerm);
+		return "restaurants/list";
+	}
+	
+	@RequestMapping(params="btnClear", method = RequestMethod.POST) 
+	public String clearSearch(Model uiModel) {
+		this.searchTerm = "";
+		uiModel.addAttribute("searchTerm", searchTerm);
+		return "restaurants/list";
+	}
+	
 	@RequestMapping(value="/listgrid", method = RequestMethod.GET,
 			produces="application/json")
 	@ResponseBody
@@ -196,15 +210,14 @@ public class RestaurantController {
 		
 		//Construcs page request for current page
 		//Note: page number for Spring Data JPA starts with 0, While jqGrid Starts with 1
-		PageRequest pageRequest = null;
-		
+		MyPageRequest myPageRequest = null;		
 		if(sort!=null){
-			pageRequest = new PageRequest(page-1,rows,sort);
+			myPageRequest = new MyPageRequest(page-1,rows,searchTerm,sort);
 		}else{
-			pageRequest = new PageRequest(page-1,rows);
+			myPageRequest = new MyPageRequest(page-1,rows,searchTerm);
 		}
 		
-		Page<Restaurant> restaurantPage = restaurantService.findAllByPage(pageRequest);
+		Page<Restaurant> restaurantPage = restaurantService.search(myPageRequest);
 		
 		//Construct the grid data that will return as JSON data
 		RestaurantGrid restaurantGrid = new RestaurantGrid();

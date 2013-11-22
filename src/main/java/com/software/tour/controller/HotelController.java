@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +30,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.software.tour.domain.Hotel;
 import com.software.tour.service.HotelService;
-import com.software.tour.service.jpa.MyPageRequest;
+import com.software.tour.util.MyPageRequest;
 import com.software.tour.util.UrlUtil;
 import com.software.tour.web.form.HotelGrid;
 
@@ -46,11 +45,12 @@ public class HotelController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String list(Model uiModel){
-		this.searchTerm = "";
 		/*logger.info("Listing hotels");
 		List<Hotel> hotels = hotelService.findAll();
 		uiModel.addAttribute("hotels", hotels);
 		logger.info("No. of hotel:" + hotels.size());*/
+		this.searchTerm = "";
+		uiModel.addAttribute("searchTerm", searchTerm);
 		return "hotels/list";
 	}
 	
@@ -177,8 +177,14 @@ public class HotelController {
 	@RequestMapping(params="searchTerm", method = RequestMethod.POST) 
 	public String search(@RequestParam(value="searchTerm", required=false) String searchTerm, Model uiModel) {
 		this.searchTerm = searchTerm;
-		/*List<Hotel> hotels = hotelService.findAll();
-		uiModel.addAttribute("hotels", hotels);*/
+		uiModel.addAttribute("searchTerm", searchTerm);
+		return "hotels/list";
+	}
+	
+	@RequestMapping(params="btnClear", method = RequestMethod.POST) 
+	public String clearSearch(Model uiModel) {
+		this.searchTerm = "";
+		uiModel.addAttribute("searchTerm", searchTerm);
 		return "hotels/list";
 	}
 	

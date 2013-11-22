@@ -9,4 +9,8 @@ public class Hotel_ {
 	public static volatile SingularAttribute<Hotel, String> name;
 	
 	public static volatile SingularAttribute<Hotel, String>	phone;
+	
+	public static volatile SingularAttribute<Hotel, String>	address;
+	
+	public static volatile SingularAttribute<Hotel, String>	email;
 }

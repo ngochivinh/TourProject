@@ -16,7 +16,6 @@ version="2.0">
 	<spring:url value="/hotels" var="showHotelUrl"/>
 	
 	<SCRIPT type="text/javascript">
-		//var str = '12345678901';
 		$(function(){
 			$("#list").jqGrid({
 				url:'${showHotelUrl}/listgrid',
@@ -27,10 +26,10 @@ version="2.0">
 					'${labelHotelAddress}', '${labelHotelEmail}'],
 					
 				colModel :[
-					{name:'name', index:'name', width:50},
+					{name:'name', index:'name', width:150},
 					{name:'phone', index:'phone', width:100},
-					{name:'address', index:'address', width:100},
-					{name:'email', index:'email', width:100}
+					{name:'address', index:'address', width:300},
+					{name:'email', index:'email', width:150}
 				],
 				
 				jsonReader : {
@@ -49,7 +48,7 @@ version="2.0">
 				viewrecords: true,
 				gridview: true,
 				height: 250,
-				width: 500,
+				width: 700,
 				caption: '${labelHotelList}',
 				onSelectRow: function(id){
 					document.location.href ="${showHotelUrl}/" + id;
@@ -59,17 +58,25 @@ version="2.0">
 		});
 	</SCRIPT>
 	
-	<form method="post">
-		<input type="text" name="searchTerm" size="50" />
-		<input type="submit" name="btnSearch" value="Search" />
-	</form>
-	
 	<c:if test="${not empty message}">
 		<div id="message" class="${message.type}">${message.message}</div>
 	</c:if>
-	
+	<form method="post">
+		<table style="width: 700px;" cellspacing="0" cellpadding="0">
+			<tr>
+				<td style="width: 480px; text-align: center;">
+					<input type="text" name="searchTerm" style="width: 100%; height: 25px;" value="${searchTerm}" />
+				</td>
+				<td style="width: 60px; text-align: center;">
+					<input type="submit" name="btnSearch" value="Search" style="width: 100%; height: 30px;" class="ui-widget ui-state-default ui-corner-all" />
+				</td>
+				<td style="width: 60px; text-align: center;">
+					<input type="submit"  name="btnClear" value="Clear" style="width: 100%; height: 30px;" class="ui-widget ui-state-default ui-corner-all" />
+				</td>
+			</tr>
+		</table>
+	</form>
 	<h1>${labelHotelList}</h1>
-	
 	<DIV>
 		<TABLE id="list"><TR><TD /></TR></TABLE>
 	</DIV>

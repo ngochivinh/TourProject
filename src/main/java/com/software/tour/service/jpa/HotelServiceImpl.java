@@ -16,6 +16,8 @@ import com.software.tour.service.HotelService;
 
 
 
+import com.software.tour.util.MyPageRequest;
+
 import org.springframework.data.domain.Page; 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -60,36 +62,11 @@ public class HotelServiceImpl implements HotelService {
 		return hotelRepository.findAll(pageable); 
 	}
 	
-	private Sort sortByLastNameAndFirstNameAsc() {
-		return new Sort(new Sort.Order(Sort.Direction.ASC, "name"),	new Sort.Order(Sort.Direction.ASC, "phone"));
-	}
-	
-	private Pageable buildPageSpecification(int pageIndex, int pageSize) {
-		Sort sortSpec = sortByLastNameAndFirstNameAsc();
-		return new PageRequest(pageIndex, pageSize, sortSpec);
-	}
-	
-	@Transactional(readOnly = true)
-	@Override
-	public List<Hotel> search(SearchDTO dto) {
-		Specification<Hotel> hotelSpec = HotelSpecifications.firstOrLastNameStartsWith(dto.getSearchTerm());
-		Pageable pageSpecification = buildPageSpecification(dto.getPageIndex(), dto.getPageSize());
-		Page<Hotel> page = hotelRepository.findAll(hotelSpec, pageSpecification);
-		return page.getContent();
-	}
-	
 	@Transactional(readOnly = true)
 	@Override
 	public Page<Hotel> search(MyPageRequest myPageRequest) {
-		Specification<Hotel> hotelSpec = HotelSpecifications.firstOrLastNameStartsWith(myPageRequest.getSearchTerm());
+		Specification<Hotel> hotelSpec = HotelSpecifications.selectWithSearchTerm(myPageRequest.getSearchTerm());
 		Pageable pageable = new PageRequest(myPageRequest.getPageIndex(), myPageRequest.getPageSize(), myPageRequest.getSort());
 		return hotelRepository.findAll(hotelSpec, pageable);
 	}
-
-	/*@Override
-	public List<Hotel> findAllForPage(int pageIndex, int pageSize) {
-		Pageable pageSpecification = buildPageSpecification(pageIndex, pageSize); 
-		Page<Hotel> page = hotelRepository.findAll(pageSpecification);
-		return page.getContent();
-	}*/
 }

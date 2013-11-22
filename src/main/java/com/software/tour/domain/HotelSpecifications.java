@@ -9,21 +9,21 @@ import org.springframework.data.jpa.domain.Specification;
 
 public class HotelSpecifications {
 	
-	public static Specification<Hotel> firstOrLastNameStartsWith(final String searchTerm) {
+	public static Specification<Hotel> selectWithSearchTerm(final String searchTerm) {
 		return new Specification<Hotel>() {
 			//Creates the search criteria
 			@Override
 			public Predicate toPredicate(Root<Hotel> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder cb) {
 				String likePattern = getLikePattern(searchTerm);
 				return cb.or(
-					//First name starts with given search term
 					cb.like(cb.lower(root.<String>get(Hotel_.name)), likePattern),
-					//Last name starts with the given search term
-					cb.like(cb.lower(root.<String>get(Hotel_.phone)), likePattern)
+					cb.like(cb.lower(root.<String>get(Hotel_.phone)), likePattern),
+					cb.like(cb.lower(root.<String>get(Hotel_.address)), likePattern),
+					cb.like(cb.lower(root.<String>get(Hotel_.email)), likePattern)
 					);
 			}
 			private String getLikePattern(final String searchTerm) {
-				return searchTerm.toLowerCase() + "%";
+				return "%" + searchTerm.toLowerCase() + "%";
 			}
 		};
 	}
